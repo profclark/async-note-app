@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Indie+Flower&display=swap');
+
+header {
+  border-bottom: 1px solid black;
+}
+
+// Notes
+.note {
+  min-height: 200px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.note .controls {
+  margin-top: auto;
+  align-self: center;
+}
+
+.note .note-header {
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+
+.note .note-content {
+  font-size: .9em;
+  font-family: 'Indie Flower', cursive;
+  line-height: 1.5rem;
+
+}
+.note .note-title {
+  font-size: 1.3em;
+  font-family: 'Gloria Hallelujah', cursive;
+  font-weight: bold;
+  text-align: center;
+}
+
+.btn.btn-delete {
+  font-size: 1.6rem;
+  color: $text-muted;
+  margin-left: 10px;
+}
+
+.btn.btn-edit {
+  font-size: 1rem;
+  border: 1px dashed $text-muted;
+  color: $text-muted;
+}
+
+.btn:hover {
+  color: theme-color('dark');
+}
+
+#noteModal textarea, #noteModal input {
+  background-color: transparent;
+}
+
+#noteModal input[type=text] {
+  border:none;
+}
+
+#noteModal textarea {
+  border: none;
+  min-height: 125px;
+}
