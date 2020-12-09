@@ -7,13 +7,14 @@ import View from './view';
  * Get a new jsonbox URL before you demo.
  * Second parameter is name of collection. I decided to store all my notes under the "notes" collection.
  */
-const store = new JsonBox('your jsonbox url here', 'notes');
+const store = new JsonBox('your json box url', 'notes');
 
 // Register handlers with the view instance
 const view = new View();
 view.registerOnEditNoteHandler(openNote);
 view.registerOnNoteRemoveHandler(removeNote);
 view.registerOnNoteSaveHandler(saveNote);
+view.registerOnSearchHandler(searchNotes);
 
 // Load & display all the notes when first arriving
 loadNotes();
@@ -45,5 +46,15 @@ async function removeNote(noteId) {
 
 async function loadNotes() {
     const notes = await store.all();
+    view.renderNoteList(notes);
+}
+
+async function searchNotes(searchTerm) {
+    if (!searchTerm) {
+        loadNotes();
+    }
+
+    // Using '*' to represent wildcard characters (per jsonbox.io docs)
+    const notes = await store.search({ title: `*${searchTerm}*` });
     view.renderNoteList(notes);
 }

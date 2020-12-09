@@ -5,11 +5,13 @@ export default class View {
         // Get DOM references
         this.noteModal = document.querySelector('#noteModal');
         this.noteForm = noteModal.querySelector('form');
+        this.searchForm = document.querySelector('#searchForm');
         this.noteContainer = document.querySelector('#noteContainer');
 
         // Set up event handlers, need to bind to this so handlers have correct scope
         this.noteContainer.addEventListener('click', this.onNoteClick.bind(this));
         this.noteForm.addEventListener('submit', this.onNoteFormSubmit.bind(this));
+        this.searchForm.addEventListener('submit', this.onSearchFormSubmit.bind(this));
 
         // A little jquery to clear the note form when the modal is hidden
         $(this.noteModal).on('hide.bs.modal', () => this.noteForm.reset());
@@ -25,6 +27,10 @@ export default class View {
 
     registerOnNoteRemoveHandler(handler) {
         this.onNoteRemoveHandler = handler;
+    }
+
+    registerOnSearchHandler(handler) {
+        this.onSearchHandler = handler;
     }
 
     // Remove note from the DOM
@@ -67,7 +73,7 @@ export default class View {
         const noteNode = this.createNoteNode(note);
         const existingNode = this.noteContainer.querySelector(`div[data-note-id="${note._id}"]`);
 
-        existingNode ? existingNode.parentElement.replaceWith(nodeNode) : this.noteContainer.prepend(noteNode);
+        existingNode ? existingNode.parentElement.replaceWith(noteNode) : this.noteContainer.prepend(noteNode);
     }
 
     createNoteNode(note) {
@@ -109,6 +115,12 @@ export default class View {
             content: this.noteForm.noteContent.value
         };
 
-        this.onNoteSaveHandler(data, this.noteForm.dataset.noteId);
+        this.onNoteSaveHandler(data, this.noteForm.noteId.value);
+    }
+
+    onSearchFormSubmit(event) {
+        event.preventDefault();
+
+        this.onSearchHandler(this.searchForm.search.value);
     }
 }
